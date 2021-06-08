@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Header from '../../common/header/Header'
 import './Home.css'
+
 import { withStyles } from '@material-ui/core/styles';
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-
 import moviesData from "../../common/moviesData.js";
-
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import FormControl from '@material-ui/core/FormControl';
@@ -21,9 +21,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import genre from "../../common/genre";
 import artists from "../../common/artists";
 import genres from '../../common/genre';
+import Details from '../details/Details.js';
 
 const styles = theme => ({
     root: {
@@ -57,7 +57,6 @@ const styles = theme => ({
 });
 
 class Home extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -72,42 +71,41 @@ class Home extends Component {
             releaseDateEnd: ""
         }
     }
-
+    
     movieNameChangeHandler = event => {
       this.setState({ movieName: event.target.value });
     }
-
+    
     genreSelectHandler = event => {
       this.setState({ genres: event.target.value });
     }
-
+    
     artistSelectHandler = event => {
       this.setState({ artists: event.target.value });
     }
-
+    
     releaseDateStartHandler = event => {
       this.setState({ releaseDateStart: event.target.value });
     }
-
+    
     releaseDateEndHandler = event => {
       this.setState({ releaseDateEnd: event.target.value });
     }
 
     movieClickHandler = (movieId) => {
-      this.props.history.push('/movie/' + movieId);
+        ReactDOM.render(<Details movieId={movieId} />, document.getElementById('root'));
     }
 
 
     render() {
         const { classes } = this.props;
-        console.log("Ayush" + this.state.movieName);
+        
     var filterMovie=moviesData.filter((movie)=>{
     return(movie.title=== this.state.movieName ||this.state.artists.includes( (movie.artists[0].first_name+" "+movie.artists[0].last_name)))
   })
     if(this.state.movieName.length ==0  && this.state.artists.length == 0){
       filterMovie=moviesData;
     }
-
         return (
             <div>
                 <Header baseUrl={this.props.baseU} />
@@ -132,7 +130,7 @@ class Home extends Component {
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
                             {filterMovie.map((movie) => (
-                                <GridListTile className="released-movie-grid-item"
+                                <GridListTile  onClick={() => this.movieClickHandler(movie.id)} className="released-movie-grid-item"
                                     key={"grid" + movie.id}
                                 >
                                     <img
@@ -161,18 +159,16 @@ class Home extends Component {
                                         FIND MOVIES BY:
                                     </Typography>
                                 </FormControl>
-
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="movieName">Movie Name</InputLabel>
                                     <Input id="movieName" onChange={this.movieNameChangeHandler} />
                                 </FormControl>
-
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="select-multiple-checkbox">Genres</InputLabel>
                                     <Select
                                         multiple
                                         input={<Input id="select-multiple-checkbox-genre" />}
-                                        input={<Input id="select-multiple-checkbox-genre" />}
+
                                         renderValue={selected => selected.join(',')}
                                         value={this.state.genres}
                                         onChange={this.genreSelectHandler}
@@ -186,7 +182,6 @@ class Home extends Component {
                                         ))}
                                     </Select>
                                 </FormControl>
-
                                 <FormControl className={classes.formControl}>
                                     <InputLabel htmlFor="select-multiple-checkbox">Artists</InputLabel>
                                     <Select
@@ -212,10 +207,9 @@ class Home extends Component {
                                         type="date"
                                         defaultValue=""
                                         InputLabelProps={{ shrink: true }}
-
+                                       
                                     />
                                 </FormControl>
-
                                 <FormControl className={classes.formControl}>
                                     <TextField
                                         id="releaseDateEnd"
@@ -223,13 +217,13 @@ class Home extends Component {
                                         type="date"
                                         defaultValue=""
                                         InputLabelProps={{ shrink: true }}
-
+                                        
                                     />
                                 </FormControl>
                                 <br /><br />
                                 <FormControl className={classes.formControl}>
                                     <Button  variant="contained" color="primary">
-
+                                      
                                         APPLY
                                     </Button>
                                 </FormControl>
@@ -237,8 +231,8 @@ class Home extends Component {
                         </Card>
                     </div>
                 </div>
-            </div>
-         );
+            </div >
+        );
     }
 }
 export default withStyles(styles)(Home);
