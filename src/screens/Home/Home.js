@@ -4,7 +4,6 @@ import Header from '../../common/header/Header'
 import './Home.css'
 
 import { withStyles } from '@material-ui/core/styles';
-import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -47,7 +46,7 @@ const styles = theme => ({
         margin: '0%'
     },
     formControl: {
-        margin: theme.spacing.unit,
+        margin: theme.spacing(1),
         minWidth: 240,
         maxWidth: 240
     },
@@ -103,7 +102,7 @@ class Home extends Component {
     var filterMovie=moviesData.filter((movie)=>{
     return(movie.title=== this.state.movieName ||this.state.artists.includes( (movie.artists[0].first_name+" "+movie.artists[0].last_name)))
   })
-    if(this.state.movieName.length ==0  && this.state.artists.length == 0){
+    if(this.state.movieName.length ===0  && this.state.artists.length === 0){
       filterMovie=moviesData;
     }
         return (

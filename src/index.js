@@ -5,4 +5,8 @@ import './index.css';
 import './logo.svg'
 import Home from './screens/Home/Home'
 
-ReactDOM.render(<Home />,document.getElementById('root'));
+ReactDOM.render(
+    <>
+        <Home />
+    </>
+,document.getElementById('root'));
